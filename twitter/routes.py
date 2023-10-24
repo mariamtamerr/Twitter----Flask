@@ -47,7 +47,8 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template('about.html', posts = posts, title='about')
+      posts = Post.query.all() #grab all obj from db
+      return render_template('about.html', posts = posts, title='about')
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -90,7 +91,7 @@ def login():
 #     return render_template('account.html',title='Account')
 
 
-@app.route("/tweet/new", methods=['GET', 'POST']) #accepting a POST request to redirect you to different route aka home page 
+@app.route("/post/new", methods=['GET', 'POST']) #accepting a POST request to redirect you to different route aka home page 
 @login_required
 def new_post():
     form = PostForm() #make an instance of the form
@@ -105,6 +106,11 @@ def new_post():
 
 
 # a route that takes us a specific page of a specific tweet
-@app.route('/tweet/<tweet_id>', methods=['GET','POST'])
-def tweet(tweet_id):
-    
+@app.route('/post/<int:post_id>', methods=['GET','POST'])
+def post(post_id):
+    # post = Post.query.get(post_id)  yalla nst3ml wahda gdeda
+    post = Post.query.get_or_404(post_id) #either get it or get error 404 and if it's there then render the following template
+    return render_template('post.html', title=post.title, post=post)
+
+
+
