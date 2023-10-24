@@ -10,10 +10,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '13992d730c4efd613a11ed4b6a65e51c'   #python --> import secrets --> secrets.token_hex(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' # 3 slashes for the relative path
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False ###### for the ap.context
+
 db = SQLAlchemy(app) # an instance of your db
+
+app.app_context().push() ####### for the ap.context
+
 
 # out it after app initializtaion 
 
-from twitter import routes 
+# from twitter import app 
+from twitter import routes, app 
 
 
