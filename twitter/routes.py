@@ -3,10 +3,10 @@
 
 
 from flask import render_template, url_for, redirect, flash, session 
-from twitter import app
+from twitter import app, db , bcrypt  
 from twitter.forms import RegistrationForm, LoginForm, PostForm
-# from twitter.models import User, Post
-
+from twitter.models import User, Post
+# from flask_login import login_user
 
 
 
@@ -52,8 +52,12 @@ def about():
 def register():
     form = RegistrationForm() #create an instance of your form that we're going to send to your application
     if form.validate_on_submit():
-        flash(f'Account created for {form.username.data}!','success')
-        return redirect(url_for('home'))
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account created for {form.username.data}! You can now log in','success')
+        return redirect(url_for('login'))
     return render_template('register.html',title='register', form=form) #pass the form as an arguments
 
 
@@ -62,7 +66,9 @@ def register():
 def login():
     form = LoginForm() #create an instance of your form that we're going to send to your application
     if form.validate_on_submit():
-        if form.username.data == 'admin' and form.password.data == '1234':
+        user = User.query.filter_by(username=form.username.data).first() #filter by username to check if this username exists
+        if user and bcrypt.check_password_hash(user.password, form.password.data): #if it does exist and the bcrypt pass is checked then import the user login function
+            # login_user(user, remember=form.remember.data)
             flash("You've been logged in successfully!", 'success')
             return redirect(url_for('home'))
         else:

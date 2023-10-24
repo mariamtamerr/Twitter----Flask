@@ -1,6 +1,7 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 
 app = Flask(__name__)
@@ -13,13 +14,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' # 3 slashes for the 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False ###### for the ap.context
 
 db = SQLAlchemy(app) # an instance of your db
+bcrypt = Bcrypt(app) # an instance of the Bcrypt class
 
-app.app_context().push() ####### for the ap.context
+
+# app.app_context().push() ####### for the ap.context
 
 
 # out it after app initializtaion 
 
 # from twitter import app 
-from twitter import routes, app 
+from twitter import routes, app
 
 
+app.app_context().push() ####### for the ap.context
