@@ -5,32 +5,48 @@
  {% block content %} 
  
 
- <form method="post" action="">
- 
- 
-<br>
-<br>
-<br>
-    
-  
- <div class="mb-3" >
 
-        {{ form.content(placeholder="What's on your mind?", style='width:500px; border-radius:0.5rem') }}
 
+<div class="content-section">
+
+  <form method='POST' action=''> 
+      {{ form.hidden_tag() }} <!-- this adds your csrf token -->
+      <fieldset class="form-group">
+          <legend class='border-bottom mb-4'>Tweet</legend>
+ <div class='form-group'>
+              {{ form.title.label(class="form-control-label")}}  
+              {% if form.title.errors %}
+              <br>   {{ form.title(class="form-control-lg is-invalid")}}
+              <div class="invalid-feedback">
+                  {% for error in form.title.errors %}
+                      <span> {{error}} </span>
+                  {% endfor %}
+              </div>
+              {% else %}
+              <br>   {{ form.title(class="form-control-lg")}} 
+              {% endif %}
+          </div> <br>
+      
+
+          <div class='form-group'>
+            {{ form.content.label(class="form-control-label")}}  <!--this is for the label-->
+            {% if form.content.errors %}
+            <br>   {{ form.content(class="form-control-lg is-invalid")}}
+            <div class="invalid-feedback">
+                {% for error in form.content.errors %}
+                    <span> {{error}} </span>
+                {% endfor %}
+            </div>
+            {% else %}
+            <br>   {{ form.content(class="form-control-lg")}} <!--this is for the field itself -->
+            {% endif %}
+       </div> <br>
+
+       <div class='form-group'>
+        <br> {{form.submit(class="btn btn-outline-secondary")}} 
+     </div>
+
+    </form>
   </div>
-  
-  {{form.submit(class='btn btn-secondary')}}
-  {% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class="flashes">
-  {% for message in messages %}
-  <li>{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-
-
-</form>
 
  {% endblock content %}

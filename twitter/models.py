@@ -1,9 +1,9 @@
 from datetime import datetime
-from twitter import db ##### 
+from twitter import db, login_manager ##### 
 # from flask_login import UserMixin
 
 
-# @login_manager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
@@ -23,6 +23,15 @@ class User(db.Model):
         return f"Post( '{self.username}', '{self.email}' , '{self.image}' )"
 
 
+    def get_id(self):
+        return str(self.id)
+
+
+    def is_active(self):
+        return True  # You can implement logic to determine whether the user is active or not
+
+    def is_authenticated(self):
+        return True  # Return 
 
 
 class Post(db.Model):
