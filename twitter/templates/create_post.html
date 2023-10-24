@@ -12,8 +12,8 @@
   <form method='POST' action=''> 
       {{ form.hidden_tag() }} <!-- this adds your csrf token -->
       <fieldset class="form-group">
-          <legend class='border-bottom mb-4'>Tweet</legend>
- <div class='form-group'>
+          <legend class='border-bottom mb-4'>{{legend}}</legend>
+     <div class='form-group'>
               {{ form.title.label(class="form-control-label")}}  
               {% if form.title.errors %}
               <br>   {{ form.title(class="form-control-lg is-invalid")}}
