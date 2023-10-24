@@ -2,7 +2,7 @@
 
 
 
-from flask import render_template, url_for, redirect, flash, session 
+from flask import render_template, url_for, redirect, flash, session, abort
 from twitter import app, db , bcrypt  
 from twitter.forms import RegistrationForm, LoginForm, PostForm
 from twitter.models import User, Post
@@ -113,4 +113,34 @@ def post(post_id):
     return render_template('post.html', title=post.title, post=post)
 
 
+
+@app.route('/post/<int:post_id>/update', methods=['GET','POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm() #make an instance of the form
+    if form.validate_on_submit():
+        # if current_user.is_authenticated:
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='New Post', form=form)
+
+
+@app.route('/post/<int:post_id>/delete', methods=['GET','POST'])
+@login_required 
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('home'))
+    # return render_template('create_post.html', title='New Post', form=form)
+
+
+    
 
