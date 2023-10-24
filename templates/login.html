@@ -1,0 +1,74 @@
+
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+
+<div class="content-section">
+
+    <form method='post' action=''> 
+        {{ form.hidden_tag() }} <!-- this adds your csrf token -->
+        <fieldset class="form-group">
+            <legend class='border-bottom mb-4'>Join Today</legend>
+            <div class='form-group'>
+                {{ form.username.label(class="form-control-label")}}  <!--this is for the label--> 
+                {% if form.username.errors %}
+                <br>   {{ form.username(class="form-control-lg is-invalid")}}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                        <span> {{error}} </span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <br>   {{ form.username(class="form-control-lg")}} <!--this is for the field itself -->
+                {% endif %}
+            </div> <br>
+           
+
+            <div class='form-group'>
+                {{ form.password.label(class="form-control-label")}}  <!--this is for the label-->
+                {% if form.password.errors %}
+                <br>   {{ form.password(class="form-control-lg is-invalid")}}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                        <span> {{error}} </span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <br>   {{ form.password(class="form-control-lg")}} <!--this is for the field itself -->
+                {% endif %}
+           </div> <br>
+
+
+           <div class='form-check'>
+            {{form.remember(class="form-check-input")}}
+            {{form.remember.label(class="form-check-label")}}
+        </div>
+
+</fieldset>
+
+            <div class='form-group'>
+               <br> {{form.submit(class="btn btn-outline-secondary")}} 
+            </div>
+<br>
+
+            <div class='text-muted'>
+                <a href='#'>Forgot Password</a>
+            </div>
+            
+    </form>
+</div>
+
+<div class="border-top pt-3">
+    <small class="text-muted">
+       Want To Join Today? <a href="{{ url_for('register') }}" class="ml-2"> Sign Up </a> <!-- TAKE CARE WE PASS THE NAME OF THE FUNCTION NOT THE ROUTE.--> 
+
+    </small>
+
+</div>
+        
+{% endblock content %}
+

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+ 
+ {% block content %} 
+ 
+
+ <form method="post" action="">
+ 
+ 
+<br>
+<br>
+<br>
+    
+  
+ <div class="mb-3" >
+
+        {{ form.content(placeholder="What's on your mind?", style='width:500px; border-radius:0.5rem') }}
+
+  </div>
+  
+  {{form.submit(class='btn btn-secondary')}}
+  {% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flashes">
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+
+</form>
+
+ {% endblock content %}
