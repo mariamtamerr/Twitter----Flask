@@ -153,3 +153,11 @@ def delete_post(post_id):
   
     
 
+
+@app.route("/users/<string:username>")
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404() #next in posts you must specify that author=user so you et total posts of a specific user not all posts of all users cmobined 
+    posts = Post.query.filter_by(author=user)\
+        .order_by(Post.date_posted.desc()).paginate(per_page=5, page = page )
+    return render_template('user_posts.html', posts = posts, user=user)

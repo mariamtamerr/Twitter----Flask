@@ -1,9 +1,12 @@
+
 {% extends "base.html" %}
 
 
  
  {% block content %} 
  
+
+ <h1> {{user.username}}'s Tweets : [ {{posts.total}} ] Found </h1>
  <!-- LOOPING THROUGH POSTS ( EVERY SINGLE POST ) -->
  
  {% for post in posts.items %}
