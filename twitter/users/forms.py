@@ -1,7 +1,9 @@
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from twitter.models import User 
+
 
 
 
@@ -37,8 +39,3 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In ')
 
     
-
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Tweet')

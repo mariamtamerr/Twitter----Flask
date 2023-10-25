@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
-# app = Flask(__name__)
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
+# app = Flask(__name__, static_url_path='/static')
 
 # import os
 # SECRET_KEY = os.urandom(32)
@@ -36,7 +36,15 @@ login_manager.login_view = 'login'
 # out it after app initializtaion 
 
 # from twitter import app 
-from twitter import routes, app
+# from twitter import routes, app
+
+from twitter.users.routes import users #import from blueprint
+from twitter.posts.routes import posts #import from blueprint
+from twitter.main.routes import main #import from blueprint
+
+app.register_blueprint(users)   #then register the blueprint
+app.register_blueprint(posts)
+app.register_blueprint(main)
 
 
 app.app_context().push() ####### for the ap.context
