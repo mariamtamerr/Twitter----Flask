@@ -87,10 +87,11 @@ def login():
 
 
 
-# @app.route("/account")
-# def account():
-#     image = url_for('static', filename='images/'+ current_user.image )
-#     return render_template('account.html',title='Account')
+@app.route("/account")
+@login_required
+def account():
+    image = url_for('static', filename='images/'+ current_user.image )
+    return render_template('account.html',title='Account', image=image)
 
 
 @app.route("/post/new", methods=['GET', 'POST']) #accepting a POST request to redirect you to different route aka home page 
@@ -113,6 +114,8 @@ def post(post_id):
     # post = Post.query.get(post_id)  yalla nst3ml wahda gdeda
     post = Post.query.get_or_404(post_id) #either get it or get error 404 and if it's there then render the following template
     return render_template('post.html', title=post.title, post=post)
+
+
 
 
 
