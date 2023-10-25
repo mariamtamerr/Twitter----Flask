@@ -43,7 +43,7 @@ from flask_login import current_user, login_required, login_user
 def home():
     # posts = Post.query.all() #grab all obj from db
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.paginate(per_page=2, page = page )
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(per_page=5, page = page )
     return render_template('home.html', posts = posts)
 
 
