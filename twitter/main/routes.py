@@ -5,7 +5,7 @@ from twitter.models import Post
 
 
 
-main = Blueprint('main')
+main = Blueprint('main', __name__)
 
 
 

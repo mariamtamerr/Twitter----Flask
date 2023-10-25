@@ -2,7 +2,7 @@
 
 from flask import render_template, url_for, redirect, flash, session, abort, request, Blueprint
 from twitter import app, db , bcrypt  
-from twitter.users.forms import RegistrationForm, LoginForm, PostForm
+from twitter.users.forms import RegistrationForm, LoginForm
 from twitter.models import User, Post
 # from PIL import Image 
 from flask_login import current_user, login_required, login_user
@@ -21,7 +21,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}! You can now log in','success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('register.html',title='register', form=form) #pass the form as an arguments
 
 
@@ -34,7 +34,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data): #if it does exist and the bcrypt pass is checked then import the user login function
             login_user(user)
             flash("You've been logged in successfully!", 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('main.home'))
         else:
             flash("Incorrect username or password", 'danger')
     return render_template('login.html',title='login', form=form) #pass the form as an arguments

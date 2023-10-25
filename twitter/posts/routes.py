@@ -2,13 +2,13 @@
 
 from flask import render_template, url_for, redirect, flash, session, abort, request, Blueprint
 from twitter import app, db , bcrypt  
-from twitter.posts.forms import RegistrationForm, LoginForm, PostForm
-from twitter.models import User, Post
+from twitter.posts.forms import PostForm
+from twitter.models import Post
 # from PIL import Image 
 from flask_login import current_user, login_required, login_user
 
 
-posts = Blueprint('posts')
+posts = Blueprint('posts', __name__) 
 
 
 
@@ -23,7 +23,7 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('You tweet has been sent', 'primary')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     return render_template('create_post.html', title='New Post', form=form, legend='New Post')
 
 
@@ -55,7 +55,7 @@ def update_post(post_id):
         # return redirect(url_for('home'))
         form.title.data = post.title # so when i open the update page , i can find the current title and content
         form.content.data = post.content #############
-        return redirect(url_for('post', post_id=post.id)) #return for that specific id post
+        return redirect(url_for('posts.post', post_id=post.id)) #return for that specific id post
     elif request.method=='GET':
         form.title.data = post.title # so when i finish updating, i can see my changes aka current new title and content
         form.content.data = post.content #############
@@ -71,6 +71,6 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Your Tweet Has Been Deleted', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
   
    
