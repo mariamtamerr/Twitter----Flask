@@ -16,6 +16,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False ###### for the ap.context
 db = SQLAlchemy(app) # an instance of your db
 bcrypt = Bcrypt(app) # an instance of the Bcrypt class
 
+app.config['IPYTHON_CONFIG'] = {
+    'InteractiveShell': {
+        'colors': 'Linux',
+        'confirm_exit': False,
+    },
+}
+
 
 login_manager = LoginManager(app)
 login_manager.init_app(app)
