@@ -22,9 +22,13 @@
 {% endfor %} 
 
 <!-- PAGINATION -->
-  {% for page_num in posts.iter_pages()  %}
+  {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)  %}  <!--4 arguments : left/right edge & left/right current : fe kam box number abl w b3d el current page-->
     {% if page_num %}
-     <a href="{{ url_for('home', page=page_num) }}" class="btn btn-outline-info">{{ page_num }}</a>
+      {% if page_num==posts.page %}  <!--if this is the current page, then make btn-info mn gher outline-->
+        <a href="{{ url_for('home', page=page_num) }}" class="btn btn-info">{{ page_num }}</a>
+      {% else %} <!--else if this is not the current page you're standing in, then make the btn-ouline -->
+        <a href="{{ url_for('home', page=page_num) }}" class="btn btn-outline-info">{{ page_num }}</a>
+      {% endif %}
     {% else %}
       ... 
     {% endif %}
