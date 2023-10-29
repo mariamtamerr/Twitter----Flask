@@ -5,7 +5,7 @@ from twitter import app, db , bcrypt
 from twitter.users.forms import RegistrationForm, LoginForm
 from twitter.models import User, Post
 # from PIL import Image 
-from flask_login import current_user, login_required, login_user
+from flask_login import current_user, login_required, login_user, logout_user
 
 users = Blueprint('users', __name__)
 
@@ -43,9 +43,10 @@ def login():
 
 
 
-# @app.route("/logout")
-# def logout():
-#     return redirect(url_for('home'))
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 

@@ -9,6 +9,19 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)  ######## NEW 
 
+# from config import projectConfig as AppConfig
+
+# def create_app(config_name='dev'):
+#     app = Flask(__name__)
+#     current_config = AppConfig[config_name]
+#     # app.config['SQLACLCHEMY_DATABASE_URI']=current_config.SQLACLCHEMY_DATABASE_URI
+#     app.config['SQLACLCHEMY_DATABASE_URI']=current_config
+#     app.config.from_object(current_config)
+
+#     return app 
+
+
+
 # app = Flask(__name__, static_url_path='/static')
 
 # import os
