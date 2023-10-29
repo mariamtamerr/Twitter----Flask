@@ -5,9 +5,12 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from config import Config
 # from flask_blog.config import Config
+from flask_restful import Api
+# from twitter.posts.api_view import PostList
 
 app = Flask(__name__)
 app.config.from_object(Config)  ######## NEW 
+
 
 # from config import projectConfig as AppConfig
 
@@ -34,6 +37,10 @@ app.config.from_object(Config)  ######## NEW
 
 db = SQLAlchemy(app) # an instance of your db
 bcrypt = Bcrypt(app) # an instance of the Bcrypt class
+api = Api(app) # an instance of the API class from flask_restful 
+# api.add_resource(PostList, '/api/posts') #add resource class to the api & url of your api
+
+
 
 # app.config['IPYTHON_CONFIG'] = {
 #     'InteractiveShell': {
@@ -65,3 +72,10 @@ app.register_blueprint(main)
 
 
 app.app_context().push() ####### for the ap.context
+
+
+# API URL MUST BE HERE AT THE END AFETR THE APP CONTEXT IS PUSHED TO AVOID CIRCULAR IMPORTS
+from twitter.posts.api_view import PostList, UserList
+# from twitter.users.api_view import UserList
+api.add_resource(PostList, '/api/posts')  # Add resource class to the API and URL
+api.add_resource(UserList, '/api/users')  # Add resource class to the API and URL
