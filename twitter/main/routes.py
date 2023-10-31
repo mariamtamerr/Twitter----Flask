@@ -1,5 +1,5 @@
 
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, g 
 # from twitter.models import Post
 # from PIL import Image 
 from twitter.models import Post, User
@@ -19,6 +19,12 @@ main = Blueprint('main', __name__)
 #     posts = Post.query.order_by(Post.date_posted.desc()).paginate(per_page=5, page = page )
 #     return render_template('home.html', posts = posts)
 
+
+
+def random_users():
+    # Generate random user data
+    g.random_users = User.query.order_by(func.random()).limit(3).all()
+    return {'random_users': random_users}
 
 @main.route("/")
 @main.route("/home")

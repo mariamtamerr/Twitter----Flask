@@ -73,6 +73,9 @@ app.register_blueprint(main)
 
 app.app_context().push() ####### for the ap.context
 
+from twitter.main.routes import random_users
+app.context_processor(random_users)
+
 
 # API URL MUST BE HERE AT THE END AFETR THE APP CONTEXT IS PUSHED TO AVOID CIRCULAR IMPORTS
 from twitter.posts.api_view import PostList, UserList
