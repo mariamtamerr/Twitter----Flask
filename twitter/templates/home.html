@@ -31,11 +31,13 @@
     <h2>
       <a
         class="article-title text-decoration-none"
-        href="{{url_for('posts.post' , post_id=post.id)}}"
+       
         >{{ post.title }}</a
       >
     </h2>
-    <p class="article-content" style="margin-left: 10px">{{ post.content }}</p>
+    <a href="{{url_for('posts.post' , post_id=post.id)}}" style="cursor:pointer; text-decoration:none; color:black">
+      <p class="article-content "  style="margin-left: 10px;  ">{{ post.content }}</p>
+   </a>
   </div>
 </article>
 {% endfor %}
