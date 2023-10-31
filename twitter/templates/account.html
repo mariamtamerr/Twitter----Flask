@@ -17,8 +17,8 @@
     -------------UPDATE ACCOUNT ---------------  -->
 
 
-
-    <form method='post' action=''> 
+<!--DOn't forget the ENCTYPE !!-->
+    <form method='post' action='' enctype="multipart/form-data"> 
         {{ form.hidden_tag() }} <!-- this adds your csrf token -->
         <fieldset class="form-group">
             <legend class='border-bottom mb-4'>Account Info </legend>
@@ -49,19 +49,16 @@
                 {% endif %}
             </div> <br>
            
+            <!----------IMAGE FILE FIELD----------->
                 <div class='form-group'>
-                    {{ form.image.label(class="form-control-label")}}  <!--this is for the label-->
+                    {{ form.image.label()}}  <!--this is for the label-->
+                    {{ form.image(class="form-control-label")}} <!--this is for the field itself -->
                     {% if form.image.errors %}
-                    <br>   {{ form.image(class="form-control-lg is-invalid")}}
-                    <div class="invalid-feedback">
                         {% for error in form.image.errors %}
-                            <span> {{error}} </span>
+                            <span class="text-danger"> {{error}} </span>
                         {% endfor %}
-                    </div>
-                    {% else %}
-                    <br>   {{ form.image(class="form-control-lg")}} <!--this is for the field itself -->
                     {% endif %}
-            </div> <br>
+                </div> <br>
 </fieldset>
 
             <div class='form-group'>

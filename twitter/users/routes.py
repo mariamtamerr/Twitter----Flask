@@ -1,6 +1,8 @@
 
-
+import secrets
 from flask import render_template, url_for, redirect, flash, session, abort, request, Blueprint
+from werkzeug.utils import secure_filename
+import os
 from twitter import app, db , bcrypt  
 from twitter.users.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from twitter.models import User, Post
@@ -49,6 +51,34 @@ def logout():
     return redirect(url_for('home'))
 
 
+# def save_picture(form_picture):
+#      random_hex = secrets.token_hex(8)
+#      f_name, f_ext = os.path.split(form_picture.filename)
+#      picture_fn = random_hex + f_ext
+#      picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
+#      form_picture.save(picture_path)
+#      return picture_fn
+
+
+# @users.route("/account", methods=["GET", "POST"])
+# @login_required
+# def account():
+#     form = UpdateAccountForm()
+#     if form.validate_on_submit():
+#         if form.image.data:
+#             profile_file = save_picture(form.image.data)
+#             current_user.image = profile_file 
+#         current_user.username = form.username.data 
+#         current_user.email = form.email.data
+#         db.session.commit()
+#         flash('Successfully Updated Account', 'info')
+#         return redirect(url_for('users.account'))
+#     elif request.method == 'GET':
+#         form.username.data = current_user.username
+#         form.email.data = current_user.email
+#     image = url_for('static', filename='images/'+ current_user.image )
+#     return render_template('account.html',title='Account', image=image, form=form)
+
 
 
 
@@ -57,15 +87,20 @@ def logout():
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.image.data:
+            original_filename = form.image.data.filename
+            filename =  secure_filename(original_filename)
+            picture_path = os.path.join(app.root_path, 'static/images', filename)
+            form.image.data.save(picture_path)
+            current_user.image = original_filename
         current_user.username = form.username.data 
         current_user.email = form.email.data
-        current_user.image = form.image.data
+        db.session.commit()
         flash('Successfully Updated Account', 'info')
+        return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        form.image.data = current_user.image
-        redirect(url_for('users.account'))
     image = url_for('static', filename='images/'+ current_user.image )
     return render_template('account.html',title='Account', image=image, form=form)
 

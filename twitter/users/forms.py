@@ -1,5 +1,6 @@
 
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -13,7 +14,7 @@ class RegistrationForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',validators=[DataRequired(), Email()])
     password = PasswordField('Password',validators=[DataRequired()])
-    image = StringField('Image',validators=[DataRequired(), Length(min=2, max=20)])
+    image = FileField('Profile Picture',validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'])])
     confirm_password = PasswordField('Confirm Password',validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
@@ -51,7 +52,7 @@ class UpdateAccountForm(FlaskForm):
     username = StringField('Username', 
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',validators=[DataRequired(), Email()])
-    image = StringField('Image',validators=[DataRequired(), Length(min=2, max=20)])
+    image = FileField('Profile Picture',validators=[FileAllowed(['jpg', 'png', 'jpeg', 'gif'])])
     submit = SubmitField('Update')
 
 # custom validator for the username if it's taken
