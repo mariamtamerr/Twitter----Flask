@@ -64,6 +64,19 @@
                 {% else %}
                 <br>   {{ form.confirm_password(class="form-control-lg")}} <!--this is for the field itself -->
                 {% endif %}
+                <div class='form-group'>
+            
+                    {{ form.image.label(class="form-control-label")}}  <!--this is for the label-->
+                    {% if form.image.errors %}
+                    <br>   {{ form.image(class="form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.image.errors %}
+                            <span> {{error}} </span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <br>   {{ form.image(class="form-control-lg")}} <!--this is for the field itself -->
+                    {% endif %}
             </div> <br>
             <div class='form-group'>
                <br> {{form.submit(class="btn btn-outline-secondary")}} 

@@ -2,7 +2,7 @@
 
 from flask import render_template, url_for, redirect, flash, session, abort, request, Blueprint
 from twitter import app, db , bcrypt  
-from twitter.users.forms import RegistrationForm, LoginForm
+from twitter.users.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from twitter.models import User, Post
 # from PIL import Image 
 from flask_login import current_user, login_required, login_user, logout_user
@@ -17,7 +17,7 @@ def register():
     form = RegistrationForm() #create an instance of your form that we're going to send to your userslication
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password, image=form.image.data)
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}! You can now log in','success')
@@ -55,8 +55,9 @@ def logout():
 @users.route("/account")
 @login_required
 def account():
+    form = UpdateAccountForm()
     image = url_for('static', filename='images/'+ current_user.image )
-    return render_template('account.html',title='Account', image=image)
+    return render_template('account.html',title='Account', image=image, form=form)
 
 
 

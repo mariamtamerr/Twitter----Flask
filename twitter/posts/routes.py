@@ -19,7 +19,7 @@ def new_post():
     form = PostForm() #make an instance of the form
     if form.validate_on_submit():
         # if current_user.is_authenticated:
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        post = Post(title=form.title.data, content=form.content.data, author=current_user, user_id = form.user_id.data)
         db.session.add(post)
         db.session.commit()
         flash('You tweet has been sent', 'primary')
