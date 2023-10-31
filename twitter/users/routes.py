@@ -19,7 +19,7 @@ def register():
     form = RegistrationForm() #create an instance of your form that we're going to send to your userslication
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password, image=form.image.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}! You can now log in','success')
@@ -45,10 +45,15 @@ def login():
 
 
 
-@app.route("/logout")
+@users.route("/logout")
+@login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    flash('You have been logged out', 'success')
+    return redirect(url_for('main.home'))
+
+
+
 
 
 # def save_picture(form_picture):
