@@ -42,7 +42,7 @@ class LoginForm(FlaskForm):
 
     # -------------------------------------------------------------
 
-# profile pic and email update 
+# profile pic, username, and email update 
 
 
 

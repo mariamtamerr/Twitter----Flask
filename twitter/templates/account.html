@@ -16,12 +16,12 @@
     <!---------------------------------------------------- 
     -------------UPDATE ACCOUNT ---------------  -->
 
-<div class="content-section">
+
 
     <form method='post' action=''> 
         {{ form.hidden_tag() }} <!-- this adds your csrf token -->
         <fieldset class="form-group">
-            <legend class='border-bottom mb-4'>Join Today</legend>
+            <legend class='border-bottom mb-4'>Account Info </legend>
             <div class='form-group'>
                 {{ form.username.label(class="form-control-label")}}  <!--this is for the label--> 
                 {% if form.username.errors %}
@@ -62,11 +62,16 @@
                     <br>   {{ form.image(class="form-control-lg")}} <!--this is for the field itself -->
                     {% endif %}
             </div> <br>
+</fieldset>
+
+            <div class='form-group'>
+                <br> {{form.submit(class="btn btn-outline-secondary")}} 
+             </div>
 </div>
 
-</fieldset>
+
 </form>
-</div>
+
 
 
 
