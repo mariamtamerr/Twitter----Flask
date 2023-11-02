@@ -105,34 +105,6 @@ class PostResource(Resource):
 
 
 
-class UserList(Resource):
-    
-    @marshal_with(user_serializer)
-    def get(self):
-        users = User.query.all() #get all users objects
-        return users, 200 
-    
-    @marshal_with(user_serializer)
-    def post(self):
-        
-        pass
-    # 1- Get Data From Form :
-            # Parse Form Data You Got From Application
-            # Give It To Function To Create Object
-            # So You Must Create The Parser File
-    # 2- Save & Return Result 
-        user_args = user_parser.parse_args()
-        print("Received user_args:", user_args)
-        user = User.create_user(**user_args)
-        if user:
-            print("User created:", user)
-            return user, 201
-        else:
-            print("User creation failed")
-            return {"message": "User creation failed"}, 500
-
-    
-    
     
     
     

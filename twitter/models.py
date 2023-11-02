@@ -14,9 +14,9 @@ def load_user(user_id):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=True)
     password = db.Column(db.String(60), nullable=False)
-    image = db.Column(db.String(20), nullable=False, default='default.jpg')
+    image = db.Column(db.String(20), nullable=True, default='default.jpg')
     posts = db.relationship('Post', backref='author', lazy=True)
 
 
@@ -54,7 +54,9 @@ class User(db.Model):
         return url_for('static', filename=f'images/{self.image}')
 
 
+# ----------------------------------------------------------------
 # ----------- POST MODEL --------------------
+# ----------------------------------------------------------------
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

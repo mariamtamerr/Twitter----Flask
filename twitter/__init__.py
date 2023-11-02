@@ -78,7 +78,8 @@ app.context_processor(random_users)
 
 
 # API URL MUST BE HERE AT THE END AFETR THE APP CONTEXT IS PUSHED TO AVOID CIRCULAR IMPORTS
-from twitter.posts.api_view import PostList, UserList, PostResource
+from twitter.posts.api_view import PostList, PostResource
+from twitter.users.api_view import  UserList, UserResource
 # from twitter.users.api_view import UserList
 api.add_resource(PostList, '/api/posts')  # Add resource class to the API and URL
 api.add_resource(PostResource, '/api/posts/<int:post_id>')  # Add resource class to the API and URL
@@ -87,3 +88,4 @@ api.add_resource(PostResource, '/api/posts/<int:post_id>')  # Add resource class
 
 
 api.add_resource(UserList, '/api/users')  # Add resource class to the API and URL
+api.add_resource(UserResource, '/api/users/<int:user_id>')  # Add resource class to the API and URL
