@@ -1,5 +1,6 @@
 from datetime import datetime
 from twitter import db, login_manager ##### 
+from flask import  url_for
 # from flask_login import UserMixin
 # db = SQLAlchemy()
 
@@ -40,22 +41,20 @@ class User(db.Model):
         db.session.add(user)
         db.session.commit()
         return user 
-
-    # @classmethod
-    # def create_user(cls, **kwargs):
-    #     try:
-    #         user = cls(**kwargs)
-    #         print("User object before adding to the database:", user)
-    #         db.session.add(user)
-    #         db.session.commit()
-    #         print("User object after adding to the database:", user)
-    #         return user
-    #     except Exception as e:
-    #         db.session.rollback()
-    #         print(f"Error creating user: {e}")
-    #         return None
+    
 
 
+    @classmethod
+    def get_specific_user(cls, id):
+        return  cls.query.get_or_404(id)
+    
+
+    @property
+    def get_image_url(self):
+        return url_for('static', filename=f'images/{self.image}')
+
+
+# ----------- POST MODEL --------------------
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +74,15 @@ class Post(db.Model):
         db.session.add(post)
         db.session.commit()
         return post 
+    
+
+
+
+
+    @classmethod
+    def get_specific_post(cls, id):
+        return  cls.query.get_or_404(id)
+
 
     # @classmethod
     # def create_post(cls, request_form, user_id):

@@ -1,7 +1,7 @@
 
-from flask_restful import Resource, fields, marshal_with  ##reosurce bta3 elserialization, fields from rest
+from flask_restful import Resource, fields, marshal_with , abort ##reosurce bta3 elserialization, fields from rest
 from flask import make_response ## to return data
-from twitter.models import Post, User
+from twitter.models import Post, User, db
 from twitter.posts.parser import post_parser, user_parser
 # from twitter import db 
 
@@ -68,8 +68,42 @@ class PostList(Resource):
 
     
     
+class PostResource(Resource):
 
-        # return 'added posts through post method'
+    @marshal_with(post_serializer)
+    def get(self, post_id):
+        post = Post.get_specific_post(post_id)
+        return post, 200
+
+
+    @marshal_with(post_serializer)
+    def put(self, post_id):
+        post = Post.get_specific_post(post_id)
+        if post:
+            post_args = post_parser.parse_args()
+            post.title=post_args["title"]
+            post.content=post_args["content"]
+            post.user_id=post_args["user_id"]
+            db.session.add(post)
+            db.session.commit()
+            return post, 200
+        abort(404, message="POst Object Not Found")
+  
+
+
+    def delete(self,post_id):
+         post = Post.get_specific_post(post_id)
+         if post:
+             db.session.delete(post)
+             db.session.commit()
+             response = make_response("Deleted", 204)
+             return response
+         abort(404, message="Delete Object Not Found")
+
+   
+
+
+
 
 class UserList(Resource):
     
